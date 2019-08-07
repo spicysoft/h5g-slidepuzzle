@@ -24,6 +24,9 @@ namespace SlidePzl
 					float3 pos = new float3( h * 128f, -v * 128f, 0 );
 					pos += orgPos;
 
+					panel.CellPos.x = h;
+					panel.CellPos.y = v;
+
 					trans.Value = pos;
 					++count;
 				}

@@ -44,14 +44,6 @@
                 "SceneReference": {
                     "SceneGuid": "4b1c7b98f443438286a968270f423ba2"
                 }
-            }, {
-                "SceneReference": {
-                    "SceneGuid": "7df68dd677674e9d8aefdf2a983f70df"
-                }
-            }, {
-                "SceneReference": {
-                    "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
-                }
             }]
         }, {
             "$type": "Unity.Authoring.Core.ComponentOrder, Unity.Authoring.Core",

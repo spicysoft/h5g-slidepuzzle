@@ -7,11 +7,6 @@ namespace SlidePzl
 {
 	public struct PuzzleGen : IComponentData
 	{
-		public float2 OrginPos;
 		public bool IsGenerate;
-		public SceneReference PanalRed;
-
-
-		public Entity panel;
 	}
 }

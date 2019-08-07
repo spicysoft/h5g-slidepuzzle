@@ -14,6 +14,7 @@ namespace SlidePzl
 			var inputSystem = World.GetExistingSystem<InputSystem>();
 
 			bool mouseOn = inputSystem.GetMouseButtonDown( 0 );
+			int cnt = 0;
 
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
 				if( !panel.Initialized )
@@ -33,15 +34,21 @@ namespace SlidePzl
 
 					bool res = OverlapsObjectCollider( mypos, mousePos, size );
 					if( res ) {
-						Debug.LogAlways("hit");
+						Debug.LogFormatAlways("hit {0}, {1}", panel.CellPos.x, panel.CellPos.y);
 					}
 					else {
-						Debug.LogAlways( "not hit" );
-
+						//Debug.LogAlways( "not hit" );
 					}
+
+					cnt++;
 				}
 
 			} );
+
+
+			if( mouseOn ) {
+				Debug.LogFormatAlways( "cnt {0}", cnt );
+			}
 
 		}
 
