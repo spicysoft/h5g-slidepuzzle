@@ -13,12 +13,14 @@
             "sprite": "1a9e91121dbe8ac808e8c71e1a914e3d",
             "color": {
                 "r": 1,
+                "g": 1,
+                "b": 1,
                 "a": 1
             },
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 1
+            "Index": 2
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 653331874237073642,
@@ -26,7 +28,8 @@
         }, {
             "$type": "Unity.Tiny.Core2D.Translation, Unity.Tiny.Core2D",
             "Value": {
-                "x": -192
+                "x": -192,
+                "y": 128
             }
         }, {
             "$type": "Unity.Tiny.Core2D.Rotation, Unity.Tiny.Core2D",
@@ -47,7 +50,7 @@
             "order": 1
         }, {
             "$type": "SlidePzl.PanelInfo, SlidePzl",
-            "cellPos": {}
+            "CellPos": {}
         }, {
             "$type": "Unity.Tiny.Core.EntityName, Unity.Tiny.Core",
             "Elements": [{
@@ -83,7 +86,15 @@
                 "StableTypeHash": 874803706151837934
             }, {
                 "StableTypeHash": 13195411454383366003
+            }, {
+                "StableTypeHash": 13423364082826944397
+            }, {
+                "StableTypeHash": 8144720687316769559
+            }, {
+                "StableTypeHash": 2714800697134614588
             }]
+        }, {
+            "$type": "Unity.Entities.Disabled, Unity.Entities"
         }]
     }, {
         "Components": [{
@@ -100,7 +111,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 3
+            "Index": 4
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 723895786994091075,
@@ -163,7 +174,11 @@
                 "StableTypeHash": 16791256614846730296
             }, {
                 "StableTypeHash": 874803706151837934
+            }, {
+                "StableTypeHash": 8144720687316769559
             }]
+        }, {
+            "$type": "Unity.Entities.Disabled, Unity.Entities"
         }]
     }, {
         "Components": [{
@@ -180,7 +195,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 4
+            "Index": 5
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 11250323946533242973,
@@ -243,6 +258,67 @@
                 "StableTypeHash": 16791256614846730296
             }, {
                 "StableTypeHash": 874803706151837934
+            }, {
+                "StableTypeHash": 8144720687316769559
+            }]
+        }, {
+            "$type": "Unity.Entities.Disabled, Unity.Entities"
+        }]
+    }, {
+        "Components": [{
+            "$type": "Unity.Tiny.Core2D.Parent, Unity.Tiny.Core2D"
+        }, {
+            "$type": "SlidePzl.PuzzleGen, SlidePzl",
+            "OrginPos": {},
+            "IsGenerate": true,
+            "PanalRed": {
+                "SceneGuid": "8e5337977f8e4d59a642407fabd3975b"
+            },
+            "panel": "091119e0cc5748eabe458d0bf805408f"
+        }, {
+            "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
+            "Index": 1
+        }, {
+            "$type": "Unity.Entities.EntityGuid, Unity.Entities",
+            "a": 11307181158103990571,
+            "b": 12632876383226544903
+        }, {
+            "$type": "Unity.Tiny.Core.EntityName, Unity.Tiny.Core",
+            "Elements": [{
+                "c": "P"
+            }, {
+                "c": "z"
+            }, {
+                "c": "l"
+            }, {
+                "c": "G"
+            }, {
+                "c": "e"
+            }, {
+                "c": "n"
+            }]
+        }, {
+            "$type": "Unity.Authoring.Core.ComponentOrder, Unity.Authoring.Core",
+            "Elements": [{
+                "StableTypeHash": 7960064150805274675
+            }, {
+                "StableTypeHash": 793987765392955020
+            }, {
+                "StableTypeHash": 12662904853204722592
+            }, {
+                "StableTypeHash": 874803706151837934
+            }, {
+                "StableTypeHash": 5347525548639711086
+            }, {
+                "StableTypeHash": 10532984705772618334
+            }, {
+                "StableTypeHash": 16997810406190480946
+            }, {
+                "StableTypeHash": 1034710026836331788
+            }, {
+                "StableTypeHash": 5909483973203207559
+            }, {
+                "StableTypeHash": 13729262634830541411
             }]
         }]
     }, {
@@ -262,9 +338,9 @@
                 "height": 1
             },
             "backgroundColor": {
-                "r": 0.1921569,
-                "g": 0.3019608,
-                "b": 0.4745098,
+                "r": 0.2158686,
+                "g": 0.356575,
+                "b": 0.4622642,
                 "a": 1
             },
             "clearFlags": 1,
@@ -336,7 +412,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 5
+            "Index": 6
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 16275950652768471705,
@@ -399,7 +475,11 @@
                 "StableTypeHash": 16791256614846730296
             }, {
                 "StableTypeHash": 874803706151837934
+            }, {
+                "StableTypeHash": 8144720687316769559
             }]
+        }, {
+            "$type": "Unity.Entities.Disabled, Unity.Entities"
         }]
     }, {
         "Components": [{
@@ -416,7 +496,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 2
+            "Index": 3
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 18035678362218219357,
@@ -471,7 +551,11 @@
                 "StableTypeHash": 16791256614846730296
             }, {
                 "StableTypeHash": 874803706151837934
+            }, {
+                "StableTypeHash": 8144720687316769559
             }]
+        }, {
+            "$type": "Unity.Entities.Disabled, Unity.Entities"
         }]
     }]
 }

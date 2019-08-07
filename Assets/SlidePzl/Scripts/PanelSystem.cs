@@ -16,6 +16,8 @@ namespace SlidePzl
 			bool mouseOn = inputSystem.GetMouseButtonDown( 0 );
 
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
+				if( !panel.Initialized )
+					return;
 
 				if( mouseOn ) {
 

@@ -5,7 +5,10 @@ namespace SlidePzl
 {
 	public struct PanelInfo : IComponentData
 	{
-		public int2 cellPos;
+
+		public bool Initialized;
+		public int2 CellPos;
+		public int Type;
 
 	}
 }

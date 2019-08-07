@@ -16,10 +16,26 @@
             "orientation": 0,
             "renderMode": 0
         }, {
+            "$type": "SlidePzl.PanelConfig, SlidePzl",
+            "PanelWhite": {
+                "SceneGuid": "7df68dd677674e9d8aefdf2a983f70df"
+            },
+            "PanelRed": {
+                "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
+            }
+        }, {
             "$type": "Unity.Tiny.Scenes.Scenes, Unity.Tiny.Scenes",
             "Elements": [{
                 "SceneReference": {
                     "SceneGuid": "4b1c7b98f443438286a968270f423ba2"
+                }
+            }, {
+                "SceneReference": {
+                    "SceneGuid": "7df68dd677674e9d8aefdf2a983f70df"
+                }
+            }, {
+                "SceneReference": {
+                    "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
                 }
             }]
         }, {
@@ -28,6 +44,14 @@
                 "SceneReference": {
                     "SceneGuid": "4b1c7b98f443438286a968270f423ba2"
                 }
+            }, {
+                "SceneReference": {
+                    "SceneGuid": "7df68dd677674e9d8aefdf2a983f70df"
+                }
+            }, {
+                "SceneReference": {
+                    "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
+                }
             }]
         }, {
             "$type": "Unity.Authoring.Core.ComponentOrder, Unity.Authoring.Core",
@@ -35,6 +59,10 @@
                 "StableTypeHash": 7960064150805274675
             }, {
                 "StableTypeHash": 12662904853204722592
+            }, {
+                "StableTypeHash": 2755536124231530446
+            }, {
+                "StableTypeHash": 14693615069507945096
             }]
         }, {
             "$type": "Unity.Authoring.Core.ConfigurationTag, Unity.Authoring.Core"
