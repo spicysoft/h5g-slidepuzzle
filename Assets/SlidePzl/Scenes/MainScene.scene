@@ -101,13 +101,17 @@
             "a": 4431508933602527923,
             "b": 12378476189132313248
         }, {
+            "$type": "SlidePzl.GameMngr, SlidePzl"
+        }, {
             "$type": "Unity.Tiny.Core.EntityName, Unity.Tiny.Core",
             "Elements": [{
-                "c": "P"
+                "c": "G"
             }, {
-                "c": "z"
+                "c": "a"
             }, {
-                "c": "l"
+                "c": "m"
+            }, {
+                "c": "e"
             }, {
                 "c": "M"
             }, {
@@ -129,9 +133,9 @@
                 "StableTypeHash": 874803706151837934
             }, {
                 "StableTypeHash": 3242470897777919185
+            }, {
+                "StableTypeHash": 882070949475750736
             }]
-        }, {
-            "$type": "SlidePzl.PuzzleMngr, SlidePzl"
         }]
     }, {
         "Components": [{
@@ -208,17 +212,17 @@
         }, {
             "$type": "Unity.Tiny.Core.EntityName, Unity.Tiny.Core",
             "Elements": [{
-                "c": "S"
+                "c": "B"
             }, {
-                "c": "p"
-            }, {
-                "c": "r"
-            }, {
-                "c": "i"
+                "c": "u"
             }, {
                 "c": "t"
             }, {
-                "c": "e"
+                "c": "t"
+            }, {
+                "c": "o"
+            }, {
+                "c": "n"
             }]
         }, {
             "$type": "Unity.Authoring.Core.ComponentOrder, Unity.Authoring.Core",
@@ -246,7 +250,11 @@
                 "StableTypeHash": 147127668789581756
             }, {
                 "StableTypeHash": 5378123052767168278
+            }, {
+                "StableTypeHash": 127455567425477177
             }]
+        }, {
+            "$type": "SlidePzl.BtnRetryTag, SlidePzl"
         }]
     }, {
         "Components": [{

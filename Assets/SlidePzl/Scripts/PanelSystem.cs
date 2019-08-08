@@ -112,7 +112,7 @@ namespace SlidePzl
 		void panelMove( ref PanelInfo panel, ref Translation trans )
 		{
 			//Debug.LogFormatAlways( "nxt {0} {1}", panel.NextPos.x, panel.NextPos.y );
-			var dt = (float)World.TinyEnvironment().frameDeltaTime;
+			var dt = World.TinyEnvironment().frameDeltaTime;
 
 			float t = 0.1f;		// 移動時間.
 			float spd = 1f / t;	// 移動速度.
