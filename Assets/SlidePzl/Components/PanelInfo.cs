@@ -12,6 +12,10 @@ namespace SlidePzl
 		};*/
 		public bool Initialized;
 		public int2 CellPos;
+		public int2 NextPos;
 		public int Type;
+		public int Step;
+		public float Timer;
+
 	}
 }

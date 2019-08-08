@@ -5,6 +5,7 @@ using Unity.Tiny.Debugging;
 
 namespace SlidePzl
 {
+	// 位置調節. PuzzleGenSystemで生成してから呼ばれる.
 	public class InitPanelSystem : ComponentSystem
 	{
 		protected override void OnUpdate()
@@ -26,6 +27,7 @@ namespace SlidePzl
 
 					panel.CellPos.x = h;
 					panel.CellPos.y = v;
+					panel.NextPos = panel.CellPos;
 
 					trans.Value = pos;
 					++count;

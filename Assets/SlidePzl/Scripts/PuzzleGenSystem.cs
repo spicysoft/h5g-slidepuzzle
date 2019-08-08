@@ -7,6 +7,7 @@ using Unity.Tiny.Scenes;
 
 namespace SlidePzl
 {
+	// エンティティ生成のみ.
 	public class PuzzleGenSystem : ComponentSystem
 	{
 		Random _random;
@@ -33,17 +34,24 @@ namespace SlidePzl
 
 
 			if( isGen ) {
-				for( int i = 0; i < 15; ++i ) {
-					int type = _random.NextInt( 2 );
-					//Debug.LogFormatAlways("rnd {0}", type);
 
-					switch( type ) {
-					case 0:
-						panelBase = env.GetConfigData<PanelConfig>().PanelWhite;
-						break;
-					case 1:
+				int num = _random.NextInt( 3 );
+				Debug.LogFormatAlways( "rand {0}", num );
+
+				float time = (float)World.TinyEnvironment().frameTime;
+				int rnd = (int)(time * 100f);
+				int ix = rnd % 3;
+				rnd = World.TinyEnvironment().frameNum;
+				int iy = rnd % 3;
+				int idx = ix + iy * 4;
+
+				for( int i = 0; i < 15; ++i ) {
+
+					if( idx == i ) {
 						panelBase = env.GetConfigData<PanelConfig>().PanelRed;
-						break;
+					}
+					else {
+						panelBase = env.GetConfigData<PanelConfig>().PanelWhite;
 					}
 
 					SceneService.LoadSceneAsync( panelBase );

@@ -44,6 +44,7 @@
         }, {
             "$type": "SlidePzl.PanelInfo, SlidePzl",
             "CellPos": {},
+            "NextPos": {},
             "Type": 1
         }, {
             "$type": "Unity.Tiny.Core.EntityName, Unity.Tiny.Core",
@@ -76,6 +77,8 @@
                 "StableTypeHash": 874803706151837934
             }, {
                 "StableTypeHash": 2714800697134614588
+            }, {
+                "StableTypeHash": 3407279141888050350
             }]
         }]
     }]
