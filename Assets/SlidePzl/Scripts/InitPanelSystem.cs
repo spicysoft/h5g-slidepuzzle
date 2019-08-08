@@ -13,9 +13,18 @@ namespace SlidePzl
 			int count = 0;
 			float3 orgPos = new float3();
 			orgPos.x = -128f * 2f + 64f;
-			orgPos.y = 128f * 2f + 64f;
+			orgPos.y = 128f * 2f - 64f;
 			orgPos.z = 0;
 
+
+			// 15個揃うまで待つ(仮).
+			Entities.ForEach( ( ref PanelInfo panel ) => {
+				++count;
+			} );
+			if( count != 15 )
+				return;
+
+			count = 0;
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
 				if( !panel.Initialized ) {
 					panel.Initialized = true;

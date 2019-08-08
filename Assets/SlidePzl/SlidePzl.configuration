@@ -24,6 +24,8 @@
                 "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
             }
         }, {
+            "$type": "SlidePzl.StatConfig, SlidePzl"
+        }, {
             "$type": "Unity.Tiny.Scenes.Scenes, Unity.Tiny.Scenes",
             "Elements": [{
                 "SceneReference": {
@@ -55,6 +57,8 @@
                 "StableTypeHash": 2755536124231530446
             }, {
                 "StableTypeHash": 14693615069507945096
+            }, {
+                "StableTypeHash": 16304520967705445278
             }]
         }, {
             "$type": "Unity.Authoring.Core.ConfigurationTag, Unity.Authoring.Core"

@@ -22,7 +22,7 @@ namespace SlidePzl
 			NativeArray<int> InfoAry = new NativeArray<int>( 16, Allocator.Temp );
 			Entities.ForEach( ( ref PanelInfo panel ) => {
 				int idx = panel.CellPos.x + panel.CellPos.y * 4;
-				InfoAry[idx] = 1;
+				InfoAry[idx] = panel.Type;
 			} );
 
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
@@ -37,29 +37,6 @@ namespace SlidePzl
 				else if( panel.Step == 1 ) {
 					panelMove( ref panel, ref trans );
 				}
-
-#if false
-				if( mouseOn ) {
-
-					//float2 pos = inputSystem.GetInputPosition();
-					//var wpos = GetTouchWorldPosition( pos );
-
-					float2 size = new float2();
-					size.x = size.y = 128f;
-
-					float3 mypos = trans.Value;
-					float3 mousePos = inputSystem.GetWorldInputPosition();
-					//Debug.LogFormatAlways( "x {0} y {1} z {2}", mousePos.x, mousePos.y, mousePos.z );
-
-					bool res = OverlapsObjectCollider( mypos, mousePos, size );
-					if( res ) {
-						//Debug.LogFormatAlways( "hit {0}, {1}", panel.CellPos.x, panel.CellPos.y );
-
-					}
-					cnt++;
-				}
-#endif
-
 			} );
 
 
@@ -137,8 +114,11 @@ namespace SlidePzl
 			//Debug.LogFormatAlways( "nxt {0} {1}", panel.NextPos.x, panel.NextPos.y );
 			var dt = (float)World.TinyEnvironment().frameDeltaTime;
 
-			float vx = (panel.NextPos.x - panel.CellPos.x) * 128f * 4f * dt;
-			float vy = -( panel.NextPos.y - panel.CellPos.y ) * 128f * 4f * dt;
+			float t = 0.1f;		// 移動時間.
+			float spd = 1f / t;	// 移動速度.
+
+			float vx = (panel.NextPos.x - panel.CellPos.x) * 128f * spd * dt;
+			float vy = -( panel.NextPos.y - panel.CellPos.y ) * 128f * spd * dt;
 
 
 			var pos = trans.Value;
@@ -147,12 +127,12 @@ namespace SlidePzl
 			trans.Value = pos;
 
 			panel.Timer += dt;
-			if( panel.Timer >= 0.25f ) {
+			if( panel.Timer >= t ) {
 				panel.CellPos = panel.NextPos;
 
 				float3 orgPos = new float3();
 				orgPos.x = -128f * 2f + 64f;
-				orgPos.y = 128f * 2f + 64f;
+				orgPos.y = 128f * 2f - 64f;
 
 				float3 newpos = new float3( panel.NextPos.x * 128f, -panel.NextPos.y * 128f, 0 );
 				newpos += orgPos;
@@ -163,22 +143,6 @@ namespace SlidePzl
 			}
 
 		}
-
-
-			/*float3 GetTouchWorldPosition( float2 mpos )
-			{
-				var env = World.TinyEnvironment();
-
-				var displayInfo = World.TinyEnvironment().GetConfigData<DisplayInfo>();
-				var inputSystem = World.GetExistingSystem<InputSystem>();
-
-				var cameraEntity = Entity.Null;
-				Entities.WithAll<Camera2D>().ForEach( ( Entity entity ) => { cameraEntity = entity; } );
-				var windowPosition = new float2( mpos.x, mpos.y );
-				var windowSize = new float2( displayInfo.width, displayInfo.height );
-
-				return TransformHelpers.WindowToWorld( this, cameraEntity, windowPosition, windowSize );
-			}*/
 
 
 		bool OverlapsObjectCollider( float3 position, float3 inputPosition, float2 size )
