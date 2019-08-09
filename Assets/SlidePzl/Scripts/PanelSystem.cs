@@ -10,23 +10,26 @@ using Unity.Tiny.UIControls;
 
 namespace SlidePzl
 {
+	/// <summary>
+	/// パネルの挙動.
+	/// </summary>
+	[UpdateAfter( typeof( InitPanelSystem ) )]
 	public class PanelSystem : ComponentSystem
 	{
-#if false
-		Step
-		0 : 入力待ち
-		1 : 移動
-		2 : 消滅
-#endif
+		public const int PnlAppear = 0;
+		public const int PnlNormal = 1;
+		public const int PnlMove = 2;
+		public const int PnlDisappear = 3;
+
 		protected override void OnUpdate()
 		{
-			//if( isPause() )
-			//	return;
-
 			Entity delEntity = Entity.Null;
 			var inputSystem = World.GetExistingSystem<InputSystem>();
 
-			bool mouseOn = inputSystem.GetMouseButtonDown( 0 );
+			bool mouseOn = false;
+			if( !isPause() ) {
+				mouseOn = inputSystem.GetMouseButtonDown( 0 );
+			}
 
 			// 盤面情報収集.
 			NativeArray<int> InfoAry = new NativeArray<int>( 16, Allocator.Temp );
@@ -35,21 +38,26 @@ namespace SlidePzl
 				InfoAry[idx] = panel.Type;
 			} );
 
-			Entities.ForEach( ( Entity entity, ref PanelInfo panel, ref Translation trans, ref NonUniformScale scale ) => {
+			Entities.ForEach( ( Entity entity, ref PanelInfo panel, ref Translation trans, ref NonUniformScale scale, ref Sprite2DRenderer sprite ) => {
 				if( !panel.Initialized )
 					return;
 
-				switch( panel.Step ) {
-				case 0:
+				switch( panel.Status ) {
+				case PnlAppear:
+					panelAppear( ref panel, ref sprite );
+					break;
+				case PnlNormal:
 					if( mouseOn ) {
 						panelNorm( ref panel, ref trans, ref InfoAry );
 					}
 					break;
-				case 1:
+
+				case PnlMove:
 					panelMove( ref panel, ref trans );
 					break;
-				case 2:
-					if( panelDisApper( ref panel, ref scale ) ) {
+
+				case PnlDisappear:
+					if( panelDisapper( ref panel, ref scale, ref sprite ) ) {
 						delEntity = entity;
 					}
 					break;
@@ -65,6 +73,7 @@ namespace SlidePzl
 				Entities.ForEach( ( ref PuzzleGen gen ) => {
 					gen.IsGenAdditive = true;
 				} );
+				setPause( false );
 			}
 
 		}
@@ -79,6 +88,12 @@ namespace SlidePzl
 			return _isPause;
 		}
 
+		void setPause( bool bPause )
+		{
+			Entities.ForEach( ( ref GameMngr mngr ) => {
+				mngr.IsPause = bPause;
+			} );
+		}
 
 		void panelNorm( ref PanelInfo panel, ref Translation trans, ref NativeArray<int> infoAry )
 		{
@@ -103,7 +118,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.y--;
-						panel.Step = 1;
+						panel.Status = PnlMove;
 						return;
 					}
 				}
@@ -113,7 +128,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.y++;
-						panel.Step = 1;
+						panel.Status = PnlMove;
 						return;
 					}
 				}
@@ -123,7 +138,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.x--;
-						panel.Step = 1;
+						panel.Status = PnlMove;
 						return;
 					}
 				}
@@ -133,7 +148,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.x++;
-						panel.Step = 1;
+						panel.Status = PnlMove;
 						return;
 					}
 				}
@@ -170,7 +185,7 @@ namespace SlidePzl
 				trans.Value = newpos;
 
 				panel.Timer = 0;
-				panel.Step = 0;
+				panel.Status = PnlNormal;
 
 				//if( panel.Type == 1 && panel.NextPos.x == 3 && panel.NextPos.y == 3 ) {
 				//	Debug.LogAlways("GOAL");
@@ -179,18 +194,44 @@ namespace SlidePzl
 
 		}
 
+		void panelAppear( ref PanelInfo panel, ref Sprite2DRenderer sprite )
+		{
+			var dt = World.TinyEnvironment().frameDeltaTime;
+			panel.Timer += dt;
 
-		bool panelDisApper( ref PanelInfo panel, ref NonUniformScale scale )
+//			var scl = scale.Value;
+//			scl -= new float3( 0.9f * dt, 0.9f * dt, 0 );
+//			scale.Value = scl;
+
+			var col = sprite.color;
+			col.a = panel.Timer * 2f;
+			if( col.a > 1f )
+				col.a = 1f;
+
+			if( panel.Timer >= 0.5f ) {
+				panel.Status = PnlNormal;
+				panel.Timer = 0;
+				col.a = 1f;
+			}
+			sprite.color = col;
+		}
+
+		bool panelDisapper( ref PanelInfo panel, ref NonUniformScale scale, ref Sprite2DRenderer sprite )
 		{
 			//Debug.LogAlways("disapp");
 			var dt = World.TinyEnvironment().frameDeltaTime;
 			panel.Timer += dt;
 
 			var scl = scale.Value;
-			scl -= new float3( 0.9f*dt, 0.9f*dt, 0 );
+			scl -= new float3( 1.9f*dt, 1.9f*dt, 0 );
 			scale.Value = scl;
 
-			if( panel.Timer >= 1 ) {
+			var col = sprite.color;
+			col.a -= 1.9f * dt;
+			sprite.color = col;
+
+
+			if( panel.Timer >= 0.5f ) {
 				return true;
 			}
 			return false;

@@ -1,11 +1,17 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Tiny.Core;
 using Unity.Tiny.Core2D;
 using Unity.Tiny.Debugging;
+using Unity.Tiny.Scenes;
+
 
 namespace SlidePzl
 {
-	// 位置調節. PuzzleGenSystemで生成してから呼ばれる.
+	/// <summary>
+	/// 位置調節等初期化. PuzzleGenSystemで生成してから呼ばれる.
+	/// </summary>
+	[UpdateAfter( typeof( PuzzleGenSystem ) )]
 	public class InitPanelSystem : ComponentSystem
 	{
 		protected override void OnUpdate()
@@ -17,7 +23,6 @@ namespace SlidePzl
 			orgPos.x = -128f * 2f + 64f;
 			orgPos.y = 128f * 2f - 64f;
 			orgPos.z = 0;
-
 
 			// 15個揃うまで待つ(仮).
 			Entities.ForEach( ( ref PanelInfo panel ) => {
@@ -33,8 +38,9 @@ namespace SlidePzl
 				}
 			} );
 
+
 			count = 0;
-			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
+			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans, ref Sprite2DRenderer sprite ) => {
 				if( !panel.Initialized ) {
 					panel.Initialized = true;
 
@@ -59,6 +65,11 @@ namespace SlidePzl
 						trans.Value = pos;
 						++count;
 					}
+
+					var col = sprite.color;
+					col.a = 0;
+					sprite.color = col;
+
 				}
 			} );
 

@@ -7,7 +7,9 @@ using Unity.Tiny.Scenes;
 
 namespace SlidePzl
 {
-	// エンティティ生成のみ.
+	/// <summary>
+	/// エンティティ生成のみ.
+	/// </summary>
 	public class PuzzleGenSystem : ComponentSystem
 	{
 		Random _random;

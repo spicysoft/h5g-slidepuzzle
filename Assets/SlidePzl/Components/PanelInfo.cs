@@ -14,7 +14,7 @@ namespace SlidePzl
 		public int2 CellPos;
 		public int2 NextPos;
 		public int Type;
-		public int Step;
+		public int Status;
 		public float Timer;
 
 	}
