@@ -11,6 +11,8 @@ namespace SlidePzl
 		protected override void OnUpdate()
 		{
 			int count = 0;
+			bool reqAddInit = false;
+
 			float3 orgPos = new float3();
 			orgPos.x = -128f * 2f + 64f;
 			orgPos.y = 128f * 2f - 64f;
@@ -24,24 +26,40 @@ namespace SlidePzl
 			if( count != 15 )
 				return;
 
+			Entities.ForEach( ( ref PuzzleGen gen ) => {
+				if( gen.ReqAddPanelInit ) {
+					gen.ReqAddPanelInit = false;
+					reqAddInit = true;
+				}
+			} );
+
 			count = 0;
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
 				if( !panel.Initialized ) {
 					panel.Initialized = true;
 
-					int v = count / 4;
-					int h = count % 4;
-					float3 pos = new float3( h * 128f, -v * 128f, 0 );
-					pos += orgPos;
+					if( reqAddInit ) {
+						panel.CellPos.x = 3;
+						panel.CellPos.y = 3;
+						panel.NextPos = panel.CellPos;
+						float3 pos = new float3( 3f * 128f, -3f * 128f, 0 );
+						pos += orgPos;
+						trans.Value = pos;
+					}
+					else {
+						int v = count / 4;
+						int h = count % 4;
+						float3 pos = new float3( h * 128f, -v * 128f, 0 );
+						pos += orgPos;
 
-					panel.CellPos.x = h;
-					panel.CellPos.y = v;
-					panel.NextPos = panel.CellPos;
+						panel.CellPos.x = h;
+						panel.CellPos.y = v;
+						panel.NextPos = panel.CellPos;
 
-					trans.Value = pos;
-					++count;
+						trans.Value = pos;
+						++count;
+					}
 				}
-
 			} );
 
 		}

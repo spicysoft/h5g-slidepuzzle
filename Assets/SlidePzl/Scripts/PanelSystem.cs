@@ -5,18 +5,28 @@ using Unity.Tiny.Core;
 using Unity.Tiny.Core2D;
 using Unity.Tiny.Debugging;
 using Unity.Tiny.Input;
+using Unity.Tiny.Scenes;
 using Unity.Tiny.UIControls;
 
 namespace SlidePzl
 {
 	public class PanelSystem : ComponentSystem
 	{
+#if false
+		Step
+		0 : 入力待ち
+		1 : 移動
+		2 : 消滅
+#endif
 		protected override void OnUpdate()
 		{
+			//if( isPause() )
+			//	return;
+
+			Entity delEntity = Entity.Null;
 			var inputSystem = World.GetExistingSystem<InputSystem>();
 
 			bool mouseOn = inputSystem.GetMouseButtonDown( 0 );
-			//int cnt = 0;
 
 			// 盤面情報収集.
 			NativeArray<int> InfoAry = new NativeArray<int>( 16, Allocator.Temp );
@@ -25,27 +35,48 @@ namespace SlidePzl
 				InfoAry[idx] = panel.Type;
 			} );
 
-			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
+			Entities.ForEach( ( Entity entity, ref PanelInfo panel, ref Translation trans, ref NonUniformScale scale ) => {
 				if( !panel.Initialized )
 					return;
 
-				if( panel.Step == 0 ) {
+				switch( panel.Step ) {
+				case 0:
 					if( mouseOn ) {
 						panelNorm( ref panel, ref trans, ref InfoAry );
 					}
-				}
-				else if( panel.Step == 1 ) {
+					break;
+				case 1:
 					panelMove( ref panel, ref trans );
+					break;
+				case 2:
+					if( panelDisApper( ref panel, ref scale ) ) {
+						delEntity = entity;
+					}
+					break;
 				}
 			} );
 
-
 			InfoAry.Dispose();
 
-			//if( mouseOn ) {
-			//	Debug.LogFormatAlways( "cnt {0}", cnt );
-			//}
+			if( delEntity != Entity.Null ) {
+				// エンティティ削除.
+				SceneService.UnloadSceneInstance( delEntity );
+				// パネル追加.
+				Entities.ForEach( ( ref PuzzleGen gen ) => {
+					gen.IsGenAdditive = true;
+				} );
+			}
 
+		}
+
+		bool isPause()
+		{
+			bool _isPause = false;
+			Entities.ForEach( ( ref GameMngr mngr ) => {
+				if( mngr.IsPause )
+					_isPause = true;
+			} );
+			return _isPause;
 		}
 
 
@@ -140,8 +171,29 @@ namespace SlidePzl
 
 				panel.Timer = 0;
 				panel.Step = 0;
+
+				//if( panel.Type == 1 && panel.NextPos.x == 3 && panel.NextPos.y == 3 ) {
+				//	Debug.LogAlways("GOAL");
+				//}
 			}
 
+		}
+
+
+		bool panelDisApper( ref PanelInfo panel, ref NonUniformScale scale )
+		{
+			//Debug.LogAlways("disapp");
+			var dt = World.TinyEnvironment().frameDeltaTime;
+			panel.Timer += dt;
+
+			var scl = scale.Value;
+			scl -= new float3( 0.9f*dt, 0.9f*dt, 0 );
+			scale.Value = scl;
+
+			if( panel.Timer >= 1 ) {
+				return true;
+			}
+			return false;
 		}
 
 

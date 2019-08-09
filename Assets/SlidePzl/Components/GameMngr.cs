@@ -9,6 +9,7 @@ namespace SlidePzl
 	public struct GameMngr : IComponentData
 	{
 		public float GameTimer;
-		
+		public bool IsGoal;
+		public bool IsPause;
 	}
 }

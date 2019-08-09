@@ -22,6 +22,7 @@ namespace SlidePzl
 		{
 			var env = World.TinyEnvironment();
 			bool isGen = false;
+			bool isAdd = false;
 			SceneReference panelBase = new SceneReference();
 
 
@@ -30,23 +31,27 @@ namespace SlidePzl
 					isGen = true;
 					gen.IsGenerate = false;
 				}
+				else if( gen.IsGenAdditive ) {
+					isAdd = true;
+					gen.IsGenAdditive = false;
+					gen.ReqAddPanelInit = true;
+				}
 			} );
 
 
 			if( isGen ) {
-
-				int num = _random.NextInt( 3 );
-				Debug.LogFormatAlways( "rand {0}", num );
+				//int num = _random.NextInt( 3 );
+				//Debug.LogFormatAlways( "rand {0}", num );
 
 				float time = (float)World.TinyEnvironment().frameTime;
 				int rnd = (int)(time * 100f);
 				int ix = rnd % 3;
 				rnd = World.TinyEnvironment().frameNum;
 				int iy = rnd % 3;
-				int idx = ix + iy * 4;
+				//int idx = ix + iy * 4;
+				int idx = 3 + 4 * 2;
 
 				for( int i = 0; i < 15; ++i ) {
-
 					if( idx == i ) {
 						panelBase = env.GetConfigData<PanelConfig>().PanelRed;
 					}
@@ -56,6 +61,11 @@ namespace SlidePzl
 
 					SceneService.LoadSceneAsync( panelBase );
 				}
+			}
+			else if( isAdd ) {
+				// 追加パネル.
+				panelBase = env.GetConfigData<PanelConfig>().PanelWhite;
+				SceneService.LoadSceneAsync( panelBase );
 			}
 
 		}
