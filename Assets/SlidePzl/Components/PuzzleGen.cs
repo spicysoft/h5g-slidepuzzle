@@ -9,6 +9,7 @@ namespace SlidePzl
 	{
 		public bool IsGenerate;			// 盤面生成.
 		public bool IsGenAdditive;		// 追加パネル生成.
-		public bool ReqAddPanelInit;	// 追加パネル初期化リクエスト.
+		public bool ReqAddPanelInit;    // 追加パネル初期化リクエスト.
+		public int GeneratedCnt;		// 盤面生成した回数.
 	}
 }

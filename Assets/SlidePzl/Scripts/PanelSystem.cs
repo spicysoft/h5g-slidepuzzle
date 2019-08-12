@@ -16,10 +16,15 @@ namespace SlidePzl
 	[UpdateAfter( typeof( InitPanelSystem ) )]
 	public class PanelSystem : ComponentSystem
 	{
-		public const int PnlAppear = 0;
-		public const int PnlNormal = 1;
-		public const int PnlMove = 2;
-		public const int PnlDisappear = 3;
+		public const int PnlStAppear = 0;
+		public const int PnlStNormal = 1;
+		public const int PnlStMove = 2;
+		public const int PnlStDisappear = 3;
+
+		public const int PnlTypeNone = 0;
+		public const int PnlTypeRed = 1;
+		public const int PnlTypeWhite = 2;
+
 
 		protected override void OnUpdate()
 		{
@@ -43,20 +48,20 @@ namespace SlidePzl
 					return;
 
 				switch( panel.Status ) {
-				case PnlAppear:
+				case PnlStAppear:
 					panelAppear( ref panel, ref sprite );
 					break;
-				case PnlNormal:
+				case PnlStNormal:
 					if( mouseOn ) {
 						panelNorm( ref panel, ref trans, ref InfoAry );
 					}
 					break;
 
-				case PnlMove:
+				case PnlStMove:
 					panelMove( ref panel, ref trans );
 					break;
 
-				case PnlDisappear:
+				case PnlStDisappear:
 					if( panelDisapper( ref panel, ref scale, ref sprite ) ) {
 						delEntity = entity;
 					}
@@ -118,7 +123,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.y--;
-						panel.Status = PnlMove;
+						panel.Status = PnlStMove;
 						return;
 					}
 				}
@@ -128,7 +133,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.y++;
-						panel.Status = PnlMove;
+						panel.Status = PnlStMove;
 						return;
 					}
 				}
@@ -138,7 +143,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.x--;
-						panel.Status = PnlMove;
+						panel.Status = PnlStMove;
 						return;
 					}
 				}
@@ -148,7 +153,7 @@ namespace SlidePzl
 					if( infoAry[idx] == 0 ) {
 						panel.NextPos = panel.CellPos;
 						panel.NextPos.x++;
-						panel.Status = PnlMove;
+						panel.Status = PnlStMove;
 						return;
 					}
 				}
@@ -185,7 +190,7 @@ namespace SlidePzl
 				trans.Value = newpos;
 
 				panel.Timer = 0;
-				panel.Status = PnlNormal;
+				panel.Status = PnlStNormal;
 
 				//if( panel.Type == 1 && panel.NextPos.x == 3 && panel.NextPos.y == 3 ) {
 				//	Debug.LogAlways("GOAL");
@@ -209,7 +214,7 @@ namespace SlidePzl
 				col.a = 1f;
 
 			if( panel.Timer >= 0.5f ) {
-				panel.Status = PnlNormal;
+				panel.Status = PnlStNormal;
 				panel.Timer = 0;
 				col.a = 1f;
 			}

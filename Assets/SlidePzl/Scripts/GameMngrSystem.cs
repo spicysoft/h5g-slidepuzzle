@@ -15,7 +15,6 @@ namespace SlidePzl
 			Entities.ForEach( ( ref GameMngr mngr ) => {
 				mngr.GameTimer += World.TinyEnvironment().frameDeltaTime;
 				timer = mngr.GameTimer;
-
 			} );
 
 			//var inputSystem = World.GetExistingSystem<InputSystem>();

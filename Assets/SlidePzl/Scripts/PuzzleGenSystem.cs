@@ -25,6 +25,7 @@ namespace SlidePzl
 			var env = World.TinyEnvironment();
 			bool isGen = false;
 			bool isAdd = false;
+			int genCnt = 0;
 			SceneReference panelBase = new SceneReference();
 
 
@@ -32,6 +33,7 @@ namespace SlidePzl
 				if( gen.IsGenerate ) {
 					isGen = true;
 					gen.IsGenerate = false;
+					genCnt = ++gen.GeneratedCnt;
 				}
 				else if( gen.IsGenAdditive ) {
 					isAdd = true;
@@ -42,19 +44,42 @@ namespace SlidePzl
 
 
 			if( isGen ) {
-				//int num = _random.NextInt( 3 );
-				//Debug.LogFormatAlways( "rand {0}", num );
+				//int idx = 3 + 4 * 2;	// debug.
 
-				float time = (float)World.TinyEnvironment().frameTime;
-				int rnd = (int)(time * 100f);
-				int ix = rnd % 3;
-				rnd = World.TinyEnvironment().frameNum;
-				int iy = rnd % 3;
-				//int idx = ix + iy * 4;
-				int idx = 3 + 4 * 2;
+				int redNum = math.min( genCnt, 6 );
+				
+				int[] redIdices = new int[redNum];
+				int ix = 0;
+				int iy = 0;
+				for( int i = 0; i < redNum; ++i ) {
+					if( i == 0 ) {
+						ix = getRand( 3 );
+						iy = getRand( 3 );
+					}
+					else {
+						ix = getRand( 4 );
+						iy = getRand( 4 );
+					}
+					int idx = ix + iy * 4;
+					if( idx >= 15 ) --idx;
+					redIdices[i] = idx;
+				}
+				/*
+				int ix = getRand( 3 );
+				int iy = getRand( 3 );
+				int idx = ix + iy * 4;
+				*/
 
 				for( int i = 0; i < 15; ++i ) {
-					if( idx == i ) {
+					bool isRed = false;
+					for( int j = 0; j < redNum; ++j ) {
+						if( i == redIdices[j] ) {
+							isRed = true;
+							break;
+						}
+					}
+
+					if( isRed ) {
 						panelBase = env.GetConfigData<PanelConfig>().PanelRed;
 					}
 					else {
@@ -71,5 +96,15 @@ namespace SlidePzl
 			}
 
 		}
+
+		int getRand( int max )
+		{
+			//float time = (float)World.TinyEnvironment().frameTime
+			//int rnd = (int)( time * 100f );
+			//return rnd % max;
+
+			return _random.NextInt( max );
+		}
+
 	}
 }
