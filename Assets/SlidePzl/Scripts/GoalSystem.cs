@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Tiny.Scenes;
 using Unity.Tiny.Debugging;
 using Unity.Tiny.Core;
+using Unity.Tiny.Text;
 
 namespace SlidePzl
 {
@@ -49,10 +50,19 @@ namespace SlidePzl
 
 			Entity gameMngrEntity = Entity.Null;
 			if( isScored ) {
+				int score = 0;
 				Entities.ForEach( ( Entity entity, ref GameMngr gamemngr ) => {
 					gameMngrEntity = entity;
 					gamemngr.Score += 100;
+					score = gamemngr.Score;
 				} );
+
+				// スコア表示.
+				Entities.WithAll<TextScoreTag>().ForEach( ( Entity entity ) =>
+				{
+					EntityManager.SetBufferFromString<TextString>( entity, score.ToString() );
+				} );
+
 
 				if( isRefresh ) {
 					// パネル全消し.

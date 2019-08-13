@@ -18,7 +18,7 @@ namespace SlidePzl
 				if( !result.IsInitialized ) {
 					result.IsInitialized = true;
 
-					Entities.WithAll<TextScoreTag>().ForEach( ( Entity entity ) =>
+					Entities.WithAll<TextResultScoreTag>().ForEach( ( Entity entity ) =>
 					{
 						EntityManager.SetBufferFromString<TextString>( entity, score.ToString() );
 					} );

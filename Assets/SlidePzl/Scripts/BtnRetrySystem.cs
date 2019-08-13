@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Tiny.Core;
 using Unity.Tiny.Debugging;
 using Unity.Tiny.Scenes;
+using Unity.Tiny.Text;
 using Unity.Tiny.UIControls;
 
 namespace SlidePzl
@@ -36,17 +37,24 @@ namespace SlidePzl
 				panelBase = env.GetConfigData<PanelConfig>().ResultScn;
 				SceneService.UnloadAllSceneInstances( panelBase );
 
-				// ポーズ解除.
-				setPause( false );
+				// ポーズ解除 & 初期化.
+				Entities.ForEach( ( ref GameMngr mngr ) => {
+					mngr.IsPause = false;
+					mngr.Score = 0;
+					mngr.GameTimer = 0;
+				} );
+
+				// ジェネレート回数リセット.
+				Entities.ForEach( ( ref PuzzleGen gen ) => {
+					gen.GeneratedCnt = 0;
+				} );
+
+				// スコア表示.
+				Entities.WithAll<TextScoreTag>().ForEach( ( Entity entity ) => {
+					EntityManager.SetBufferFromString<TextString>( entity, "0" );
+				} );
+
 			}
-
-		}
-
-		void setPause( bool bPause )
-		{
-			Entities.ForEach( ( ref GameMngr mngr ) => {
-				mngr.IsPause = bPause;
-			} );
 		}
 	}
 }

@@ -14,15 +14,19 @@ namespace SlidePzl
 	[UpdateAfter( typeof( PuzzleGenSystem ) )]
 	public class InitPanelSystem : ComponentSystem
 	{
+		public const float OrgX = -128f * 2f + 64f;
+		public const float OrgY = 128f * 2f - 64f - 64f;
+
+
 		protected override void OnUpdate()
 		{
 			int count = 0;
 			bool reqAddInit = false;
 
-			float3 orgPos = new float3();
-			orgPos.x = -128f * 2f + 64f;
-			orgPos.y = 128f * 2f - 64f;
-			orgPos.z = 0;
+			float3 orgPos = new float3( OrgX, OrgY, 0 );
+			//orgPos.x = -128f * 2f + 64f;
+			//orgPos.y = 128f * 2f - 64f;
+			//orgPos.z = 0;
 
 			// 15個揃うまで待つ(仮).
 			Entities.ForEach( ( ref PanelInfo panel ) => {

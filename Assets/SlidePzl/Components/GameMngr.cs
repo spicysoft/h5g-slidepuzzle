@@ -10,7 +10,7 @@ namespace SlidePzl
 	{
 		public float GameTimer;
 		public int Score;
-		public bool IsGoal;
+		//public bool IsGoal;
 		public bool IsPause;
 	}
 }

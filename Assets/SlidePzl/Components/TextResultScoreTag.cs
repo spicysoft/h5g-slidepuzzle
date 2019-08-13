@@ -2,7 +2,7 @@ using Unity.Entities;
 
 namespace SlidePzl
 {
-	public struct TextScoreTag : IComponentData
+	public struct TextResultScoreTag : IComponentData
 	{
 	}
 }

@@ -181,9 +181,9 @@ namespace SlidePzl
 			if( panel.Timer >= t ) {
 				panel.CellPos = panel.NextPos;
 
-				float3 orgPos = new float3();
-				orgPos.x = -128f * 2f + 64f;
-				orgPos.y = 128f * 2f - 64f;
+				float3 orgPos = new float3( InitPanelSystem.OrgX, InitPanelSystem.OrgY, 0 );
+				//orgPos.x = -128f * 2f + 64f;
+				//orgPos.y = 128f * 2f - 64f;
 
 				float3 newpos = new float3( panel.NextPos.x * 128f, -panel.NextPos.y * 128f, 0 );
 				newpos += orgPos;

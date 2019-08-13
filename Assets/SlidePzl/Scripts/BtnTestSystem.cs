@@ -16,7 +16,7 @@ namespace SlidePzl
 			bool btnOn = false;
 			Entities.WithAll<BtnTestTag>().ForEach( ( Entity entity, ref PointerInteraction pointerInteraction ) => {
 				if( pointerInteraction.clicked ) {
-					Debug.LogAlways("btn click");
+					//Debug.LogAlways("btn click");
 					btnOn = true;
 				}
 			} );

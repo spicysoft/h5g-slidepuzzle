@@ -3,41 +3,53 @@ using Unity.Tiny.Debugging;
 using Unity.Collections;
 using Unity.Tiny.Core;
 using Unity.Tiny.Input;
+using Unity.Tiny.Scenes;
+using Unity.Tiny.Text;
 
 namespace SlidePzl
 {
 	public class GameMngrSystem : ComponentSystem
 	{
+		public const float GameTimeLimit = 16f;
+
 		protected override void OnUpdate()
 		{
 			float timer = 0;
+			int score = 0;
+			bool isEnd = false;
 
 			Entities.ForEach( ( ref GameMngr mngr ) => {
+				if( mngr.IsPause )
+					return;
+
+				score = mngr.Score;
+
+				// タイマー.
 				mngr.GameTimer += World.TinyEnvironment().frameDeltaTime;
 				timer = mngr.GameTimer;
-			} );
-
-			//var inputSystem = World.GetExistingSystem<InputSystem>();
-			//if( inputSystem.GetMouseButtonDown(0) ) {
-			//	Debug.LogFormatAlways("t {0}", timer );
-			//}
-
-		}
-
-		/*
-		void goalCheck( ref GameMngr mngr )
-		{
-			Entity panelEntity = Entity.Null;
-			bool isGoal = false;
-
-			// ゴール判定（仮）.
-			Entities.ForEach( ( Entity entity, ref PanelInfo panel ) => {
-				if( panel.Type == 1 && panel.NextPos.x == 3 && panel.NextPos.y == 3 ) {
-					isGoal = true;
-					panelEntity = entity;
+				if( timer >= GameTimeLimit ) {
+					isEnd = true;
+					//mngr.GameTimer = 0;
+					mngr.IsPause = true;
 				}
 			} );
-		}*/
+
+
+			if( isEnd ) {
+				// リザルト表示.
+				SceneReference panelBase = new SceneReference();
+				panelBase = World.TinyEnvironment().GetConfigData<PanelConfig>().ResultScn;
+				SceneService.LoadSceneAsync( panelBase );
+			}
+
+			// タイマー表示.
+			Entities.WithAll<TextTimerTag>().ForEach( ( Entity entity ) =>
+			{
+				int t = (int)( GameTimeLimit - timer );
+				EntityManager.SetBufferFromString<TextString>( entity, t.ToString() );
+			} );
+
+		}
 
 	}
 }
