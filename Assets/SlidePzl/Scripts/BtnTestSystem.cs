@@ -6,25 +6,24 @@ using Unity.Tiny.UIControls;
 
 namespace SlidePzl
 {
-	public class BtnRetrySystem : ComponentSystem
+	public class BtnTestSystem : ComponentSystem
 	{
-//		bool isLoaded;
+		bool isLoaded;
 
 
 		protected override void OnUpdate()
 		{
-
 			bool btnOn = false;
-			Entities.WithAll<BtnRetryTag>().ForEach( ( Entity entity, ref PointerInteraction pointerInteraction ) => {
+			Entities.WithAll<BtnTestTag>().ForEach( ( Entity entity, ref PointerInteraction pointerInteraction ) => {
 				if( pointerInteraction.clicked ) {
-					Debug.LogAlways("btn ret click");
+					Debug.LogAlways("btn click");
 					btnOn = true;
 				}
 			} );
 
 
 			if( btnOn ) {
-				// 盤面リフレッシュ.
+#if false
 				var env = World.TinyEnvironment();
 				SceneService.UnloadAllSceneInstances( env.GetConfigData<PanelConfig>().PanelRed );
 				SceneService.UnloadAllSceneInstances( env.GetConfigData<PanelConfig>().PanelWhite );
@@ -32,21 +31,21 @@ namespace SlidePzl
 				Entities.ForEach( ( ref PuzzleGen gen ) => {
 					gen.IsGenerate = true;
 				} );
+#endif
 				SceneReference panelBase = new SceneReference();
+				var env = World.TinyEnvironment();
 				panelBase = env.GetConfigData<PanelConfig>().ResultScn;
-				SceneService.UnloadAllSceneInstances( panelBase );
+				if( !isLoaded ) {
+					SceneService.LoadSceneAsync( panelBase );
+					isLoaded = true;
+				}
+				else {
+					SceneService.UnloadAllSceneInstances( panelBase );
+					isLoaded = false;
+				}
 
-				// ポーズ解除.
-				setPause( false );
 			}
 
-		}
-
-		void setPause( bool bPause )
-		{
-			Entities.ForEach( ( ref GameMngr mngr ) => {
-				mngr.IsPause = bPause;
-			} );
 		}
 	}
 }

@@ -22,6 +22,9 @@
             },
             "PanelRed": {
                 "SceneGuid": "a94e46f652db467aacc51bc1e2db4bf0"
+            },
+            "ResultScn": {
+                "SceneGuid": "ae8258d3cfdf4cf6a9bd1a39c4b18669"
             }
         }, {
             "$type": "SlidePzl.StatConfig, SlidePzl"
@@ -63,6 +66,8 @@
                 "StableTypeHash": 14693615069507945096
             }, {
                 "StableTypeHash": 16304520967705445278
+            }, {
+                "StableTypeHash": 18331004468314054331
             }]
         }, {
             "$type": "Unity.Authoring.Core.ConfigurationTag, Unity.Authoring.Core"

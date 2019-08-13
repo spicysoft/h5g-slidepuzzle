@@ -7,5 +7,8 @@ namespace SlidePzl
 	{
 		public SceneReference PanelWhite;
 		public SceneReference PanelRed;
+
+		public SceneReference ResultScn;
+
 	}
 }
