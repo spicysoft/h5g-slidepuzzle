@@ -36,12 +36,75 @@ namespace SlidePzl
 				mouseOn = inputSystem.GetMouseButtonDown( 0 );
 			}
 
-			// 盤面情報収集.
+			// 盤面情報用配列.
 			NativeArray<int> InfoAry = new NativeArray<int>( 16, Allocator.Temp );
-			Entities.ForEach( ( ref PanelInfo panel ) => {
+			bool isPanelHit = false;    // パネルタップしたか?
+			bool isReadyToMove = true;	// パネル動けるか?
+			int2 HitCell = new int2( -1, -1 );
+			int2 BlankCell = new int2( -1, -1 );
+
+			// 盤面情報収集.
+			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
+				// 状態チェック.
+				if( !panel.Initialized || panel.Status != PnlStNormal ) {
+					isReadyToMove = false;
+					return;
+				}
+
+				// 情報.
 				int idx = panel.CellPos.x + panel.CellPos.y * 4;
 				InfoAry[idx] = panel.Type;
+
+				// マウスとのあたりチェック.
+				if( mouseOn ) {
+					float2 size = new float2( 128f, 128f );
+
+					float3 mypos = trans.Value;
+					float3 mousePos = inputSystem.GetWorldInputPosition();
+					bool res = OverlapsObjectCollider( mypos, mousePos, size );
+					if( res ) {
+						HitCell = panel.CellPos;
+						isPanelHit = true;
+					}
+				}
 			} );
+
+
+			// パネル動ける状態でない場合.
+			if( !isReadyToMove ) {
+				isPanelHit = false;
+			}
+
+			if( isPanelHit ) {
+				// 空きを探す.
+				for( int j = 0; j < 4; ++j ) {
+					for( int i = 0; i < 4; ++i ) {
+						int idx = i + j * 4;
+						if( InfoAry[idx] == 0 ) {
+							BlankCell.x = i;
+							BlankCell.y = j;
+						}
+					}
+				}
+			}
+
+			// パネル動けるか.
+			bool isMovable = false;
+			int moveDir = -1;	// 0:up 1:down 2:left 3:right.
+			if( HitCell.x == BlankCell.x ) {
+				isMovable = true;
+				if( HitCell.y < BlankCell.y )
+					moveDir = 1;
+				else if( HitCell.y > BlankCell.y )
+					moveDir = 0;
+			}
+			else if ( HitCell.y == BlankCell.y ) {
+				isMovable = true;
+				if( HitCell.x < BlankCell.x )
+					moveDir = 3;
+				else if( HitCell.x > BlankCell.x )
+					moveDir = 2;
+			}
 
 			Entities.ForEach( ( Entity entity, ref PanelInfo panel, ref Translation trans, ref NonUniformScale scale, ref Sprite2DRenderer sprite ) => {
 				if( !panel.Initialized )
@@ -51,10 +114,13 @@ namespace SlidePzl
 				case PnlStAppear:
 					panelAppear( ref panel, ref sprite );
 					break;
+
 				case PnlStNormal:
-					if( mouseOn ) {
-						panelNorm( ref panel, ref trans, ref InfoAry );
-					}
+					if( isMovable )
+						panelNormNew( ref panel, ref InfoAry, ref HitCell, ref BlankCell, moveDir );
+					//if( mouseOn ) {
+					//	panelNorm( ref panel, ref trans, ref InfoAry );
+					//}
 					break;
 
 				case PnlStMove:
@@ -100,6 +166,40 @@ namespace SlidePzl
 			} );
 		}
 
+		void panelNormNew( ref PanelInfo panel, ref NativeArray<int> infoAry, ref int2 hitCell, ref int2 blankCell, int dir )
+		{
+			if( dir == 0 ) { // 上.
+				if( panel.CellPos.x == hitCell.x && (panel.CellPos.y > blankCell.y && panel.CellPos.y <= hitCell.y ) ) {
+					panel.Status = PnlStMove;
+					panel.NextPos = panel.CellPos;
+					panel.NextPos.y--;
+				}
+			}
+			else if( dir == 1 ) {
+				if( panel.CellPos.x == hitCell.x && ( panel.CellPos.y < blankCell.y && panel.CellPos.y >= hitCell.y ) ) {
+					panel.Status = PnlStMove;
+					panel.NextPos = panel.CellPos;
+					panel.NextPos.y++;
+				}
+			}
+			else if( dir == 2 ) {
+				if( panel.CellPos.y == hitCell.y && ( panel.CellPos.x > blankCell.x && panel.CellPos.x <= hitCell.x ) ) {
+					panel.Status = PnlStMove;
+					panel.NextPos = panel.CellPos;
+					panel.NextPos.x--;
+				}
+			}
+			else if( dir == 3 ) {
+				if( panel.CellPos.y == hitCell.y && ( panel.CellPos.x <blankCell.x && panel.CellPos.x >= hitCell.x ) ) {
+					panel.Status = PnlStMove;
+					panel.NextPos = panel.CellPos;
+					panel.NextPos.x++;
+				}
+			}
+
+		}
+
+#if false
 		void panelNorm( ref PanelInfo panel, ref Translation trans, ref NativeArray<int> infoAry )
 		{
 			float2 size = new float2();
@@ -159,6 +259,7 @@ namespace SlidePzl
 				}
 			}
 		}
+#endif
 
 		void panelMove( ref PanelInfo panel, ref Translation trans )
 		{

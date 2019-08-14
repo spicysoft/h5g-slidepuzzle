@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny.Core;
@@ -35,6 +36,7 @@ namespace SlidePzl
 			if( count != 15 )
 				return;
 
+			// 追加パネルか?
 			Entities.ForEach( ( ref PuzzleGen gen ) => {
 				if( gen.ReqAddPanelInit ) {
 					gen.ReqAddPanelInit = false;
@@ -42,17 +44,47 @@ namespace SlidePzl
 				}
 			} );
 
+			// 追加パネル用に空きを探す.
+			int2 blankCell = new int2( 3, 3 );
+			if( reqAddInit ) {
+				// 盤面情報用配列.
+				NativeArray<int> InfoAry = new NativeArray<int>( 16, Allocator.Temp );
+				// 盤面情報収集.
+				Entities.ForEach( ( ref PanelInfo panel, ref Translation trans ) => {
+					// 情報.
+					int idx = panel.CellPos.x + panel.CellPos.y * 4;
+					InfoAry[idx] = panel.Type;
+				} );
+				// 空きを探す.
+				for( int j = 0; j < 4; ++j ) {
+					bool isEnd = false;
+					for( int i = 0; i < 4; ++i ) {
+						int idx = i + j * 4;
+						if( InfoAry[idx] == 0 ) {
+							blankCell.x = i;
+							blankCell.y = j;
+							isEnd = true;
+							break;
+						}
+					}
+					if( isEnd )
+						break;
+				}
+			}
+
 
 			count = 0;
 			Entities.ForEach( ( ref PanelInfo panel, ref Translation trans, ref Sprite2DRenderer sprite ) => {
 				if( !panel.Initialized ) {
 					panel.Initialized = true;
 
+					// 追加パネル.
 					if( reqAddInit ) {
-						panel.CellPos.x = 3;
-						panel.CellPos.y = 3;
+						//panel.CellPos.x = 3;
+						//panel.CellPos.y = 3;
+						panel.CellPos = blankCell;
 						panel.NextPos = panel.CellPos;
-						float3 pos = new float3( 3f * 128f, -3f * 128f, 0 );
+						float3 pos = new float3( panel.CellPos.x * 128f, -panel.CellPos.y * 128f, 0 );
 						pos += orgPos;
 						trans.Value = pos;
 					}

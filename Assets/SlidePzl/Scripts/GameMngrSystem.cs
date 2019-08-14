@@ -10,7 +10,7 @@ namespace SlidePzl
 {
 	public class GameMngrSystem : ComponentSystem
 	{
-		public const float GameTimeLimit = 16f;
+		public const float GameTimeLimit = 160f;
 
 		protected override void OnUpdate()
 		{
@@ -49,6 +49,14 @@ namespace SlidePzl
 				EntityManager.SetBufferFromString<TextString>( entity, t.ToString() );
 			} );
 
+#if false
+			Entities.WithAll<TextComboTag>().ForEach( ( Entity entity ) => {
+				if( timer < 3f )
+					EntityManager.SetBufferFromString<TextString>( entity, "" );
+				else
+					EntityManager.SetBufferFromString<TextString>( entity, "Combo" );
+			} );
+#endif
 		}
 
 	}
