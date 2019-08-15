@@ -25,6 +25,9 @@
             },
             "ResultScn": {
                 "SceneGuid": "ae8258d3cfdf4cf6a9bd1a39c4b18669"
+            },
+            "TitleScn": {
+                "SceneGuid": "30f6f18452d6473b8b66178cd65f91e4"
             }
         }, {
             "$type": "SlidePzl.StatConfig, SlidePzl"
@@ -45,6 +48,10 @@
             }, {
                 "SceneReference": {
                     "SceneGuid": "ae8258d3cfdf4cf6a9bd1a39c4b18669"
+                }
+            }, {
+                "SceneReference": {
+                    "SceneGuid": "30f6f18452d6473b8b66178cd65f91e4"
                 }
             }]
         }, {
@@ -68,6 +75,8 @@
                 "StableTypeHash": 16304520967705445278
             }, {
                 "StableTypeHash": 18331004468314054331
+            }, {
+                "StableTypeHash": 10213062064261161947
             }]
         }, {
             "$type": "Unity.Authoring.Core.ConfigurationTag, Unity.Authoring.Core"

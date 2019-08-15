@@ -9,6 +9,6 @@ namespace SlidePzl
 		public SceneReference PanelRed;
 
 		public SceneReference ResultScn;
-
+		public SceneReference TitleScn;
 	}
 }

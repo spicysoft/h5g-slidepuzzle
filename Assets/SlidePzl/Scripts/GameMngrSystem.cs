@@ -10,10 +10,28 @@ namespace SlidePzl
 {
 	public class GameMngrSystem : ComponentSystem
 	{
-		public const float GameTimeLimit = 160f;
+		public const float GameTimeLimit = 10f;
 
 		protected override void OnUpdate()
 		{
+			bool isTitleFinished = false;
+			Entities.ForEach( ( ref GameMngr mngr ) => {
+				isTitleFinished = mngr.IsTitleFinished;
+				if( !isTitleFinished ) {
+					mngr.IsTitleFinished = true;
+					mngr.IsPause = true;
+				}
+			} );
+
+			if( !isTitleFinished ) {
+				SceneReference panelBase = new SceneReference();
+				panelBase = World.TinyEnvironment().GetConfigData<PanelConfig>().TitleScn;
+				SceneService.LoadSceneAsync( panelBase );
+				Debug.LogAlways( "title scn load" );
+				return;
+			}
+
+
 			float timer = 0;
 			int score = 0;
 			bool isEnd = false;
@@ -40,6 +58,7 @@ namespace SlidePzl
 				SceneReference panelBase = new SceneReference();
 				panelBase = World.TinyEnvironment().GetConfigData<PanelConfig>().ResultScn;
 				SceneService.LoadSceneAsync( panelBase );
+				Debug.LogAlways("result scn load");
 			}
 
 			// タイマー表示.
