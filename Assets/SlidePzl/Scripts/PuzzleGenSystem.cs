@@ -44,17 +44,18 @@ namespace SlidePzl
 
 
 			if( isGen ) {
-				//int idx = 3 + 4 * 2;	// debug.
 
-				int redNum = math.min( genCnt, 6 );
-				
+				int redNum = math.min( genCnt, 6 );     // 最大で6個.
+
 				int[] redIdices = new int[redNum];
+#if true
 				int ix = 0;
 				int iy = 0;
 				for( int i = 0; i < redNum; ++i ) {
 					if( i == 0 ) {
-						ix = getRand( 3 );
+						ix = getRandFromTime( 3 );
 						iy = getRand( 3 );
+						//Debug.LogFormatAlways( "1st {0} {1}", ix, iy );
 					}
 					else {
 						ix = getRand( 4 );
@@ -64,11 +65,11 @@ namespace SlidePzl
 					if( idx >= 15 ) --idx;
 					redIdices[i] = idx;
 				}
-				/*
-				int ix = getRand( 3 );
-				int iy = getRand( 3 );
-				int idx = ix + iy * 4;
-				*/
+#else
+				for( int i = 0; i < redNum; ++i ) {
+					redIdices[i] = i;
+				}
+#endif
 
 				for( int i = 0; i < 15; ++i ) {
 					bool isRed = false;
@@ -99,12 +100,19 @@ namespace SlidePzl
 
 		int getRand( int max )
 		{
-			//float time = (float)World.TinyEnvironment().frameTime
+			//float time = (float)World.TinyEnvironment().frameTime;
 			//int rnd = (int)( time * 100f );
 			//return rnd % max;
 
 			return _random.NextInt( max );
 		}
 
+		int getRandFromTime( int max )
+		{
+			float time = (float)World.TinyEnvironment().frameTime;
+			int rnd = (int)( time * 100f );
+			Debug.LogFormatAlways( "rnd {0}", rnd );
+			return rnd % max;
+		}
 	}
 }

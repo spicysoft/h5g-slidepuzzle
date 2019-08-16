@@ -3,7 +3,8 @@
     "Guid": "ae8258d3cfdf4cf6a9bd1a39c4b18669",
     "SerializedVersion": 1,
     "AssetReferences": [
-        { "Guid": "6de3464f129c74d688475431cf3da49d", "FileId": 11400000, "Type": 2}],
+        { "Guid": "6de3464f129c74d688475431cf3da49d", "FileId": 11400000, "Type": 2},
+        { "Guid": "34026a498555f45f0bc10287795b2d55", "FileId": 21300000, "Type": 3}],
     "Entities": [{
         "Components": [{
             "$type": "Unity.Tiny.Core2D.Parent, Unity.Tiny.Core2D",
@@ -11,7 +12,7 @@
         }, {
             "$type": "Unity.Tiny.Core2D.Sprite2DRenderer, Unity.Tiny.Sprite2D",
             "color": {
-                "a": 0.6588235
+                "a": 0.7607843
             },
             "blending": 0
         }, {
@@ -529,6 +530,7 @@
             "Value": "e78f7192e79548f980f526180aa548fe"
         }, {
             "$type": "Unity.Tiny.Core2D.Sprite2DRenderer, Unity.Tiny.Sprite2D",
+            "sprite": "5bf8c590746c72f71559a9b234ab66cc",
             "color": {
                 "r": 0.3207547,
                 "g": 0.3207547,

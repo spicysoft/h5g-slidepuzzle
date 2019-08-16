@@ -10,7 +10,7 @@ namespace SlidePzl
 {
 	public class GameMngrSystem : ComponentSystem
 	{
-		public const float GameTimeLimit = 10f;
+		public const float GameTimeLimit = 60f;
 
 		protected override void OnUpdate()
 		{
