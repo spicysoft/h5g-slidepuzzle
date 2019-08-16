@@ -11,6 +11,8 @@ namespace SlidePzl
 		public bool IsTitleFinished;
 		public float GameTimer;
 		public int Score;
+		public int InputCnt;
 		public bool IsPause;
+		public bool ReqReflesh;
 	}
 }

@@ -76,6 +76,10 @@ namespace SlidePzl
 			}
 
 			if( isPanelHit ) {
+				// 入力回数.
+				Entities.ForEach( ( ref GameMngr mngr ) => {
+					++mngr.InputCnt;
+				} );
 				// 空きを探す.
 				for( int j = 0; j < 4; ++j ) {
 					for( int i = 0; i < 4; ++i ) {
@@ -138,13 +142,36 @@ namespace SlidePzl
 			InfoAry.Dispose();
 
 			if( delEntity != Entity.Null ) {
-				// エンティティ削除.
-				SceneService.UnloadSceneInstance( delEntity );
-				// パネル追加.
-				Entities.ForEach( ( ref PuzzleGen gen ) => {
-					gen.IsGenAdditive = true;
+
+				// パネル全消しするかチェック.
+				bool reqReflesh = false;
+				Entities.ForEach( ( ref GameMngr mngr ) => {
+					if( mngr.ReqReflesh ) {
+						mngr.ReqReflesh = false;
+						reqReflesh = true;
+					}
 				} );
-				setPause( false );
+
+				if( reqReflesh ) {
+					// パネル全消し.
+					var env = World.TinyEnvironment();
+					SceneService.UnloadAllSceneInstances( env.GetConfigData<PanelConfig>().PanelRed );
+					SceneService.UnloadAllSceneInstances( env.GetConfigData<PanelConfig>().PanelWhite );
+					// 盤面生成.
+					Entities.ForEach( ( ref PuzzleGen gen ) => {
+						gen.IsGenerate = true;
+					} );
+					setPause( false );
+				}
+				else {
+					// エンティティ削除.
+					SceneService.UnloadSceneInstance( delEntity );
+					// パネル追加.
+					Entities.ForEach( ( ref PuzzleGen gen ) => {
+						gen.IsGenAdditive = true;
+					} );
+					setPause( false );
+				}
 			}
 
 		}

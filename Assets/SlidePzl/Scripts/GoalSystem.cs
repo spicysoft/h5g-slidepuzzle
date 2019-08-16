@@ -40,6 +40,8 @@ namespace SlidePzl
 							else {
 								// 盤面更新.
 								isRefresh = true;
+								panel.Status = PanelSystem.PnlStDisappear;
+								setPause();
 							}
 							isScored = true;
 						}
@@ -48,13 +50,15 @@ namespace SlidePzl
 			} );
 
 
-			Entity gameMngrEntity = Entity.Null;
+			//Entity gameMngrEntity = Entity.Null;
 			if( isScored ) {
 				int score = 0;
 				Entities.ForEach( ( Entity entity, ref GameMngr gamemngr ) => {
-					gameMngrEntity = entity;
+					//gameMngrEntity = entity;
 					gamemngr.Score += 100;
 					score = gamemngr.Score;
+
+					Debug.LogFormatAlways("input {0}", gamemngr.InputCnt );
 				} );
 
 				// スコア表示.
@@ -65,6 +69,7 @@ namespace SlidePzl
 
 
 				if( isRefresh ) {
+#if false
 					// パネル全消し.
 					var env = World.TinyEnvironment();
 					SceneService.UnloadAllSceneInstances( env.GetConfigData<PanelConfig>().PanelRed );
@@ -73,6 +78,12 @@ namespace SlidePzl
 					Entities.ForEach( ( ref PuzzleGen gen ) => {
 						gen.IsGenerate = true;
 					} );
+#else
+					// ここで全消しせずにリクエストしておく.
+					Entities.ForEach( ( ref GameMngr mngr ) => {
+						mngr.ReqReflesh = true;
+					} );
+#endif
 				}
 			}
 

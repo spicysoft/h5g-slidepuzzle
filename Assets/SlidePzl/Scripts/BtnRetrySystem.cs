@@ -42,6 +42,7 @@ namespace SlidePzl
 					mngr.IsPause = false;
 					mngr.Score = 0;
 					mngr.GameTimer = 0;
+					mngr.InputCnt = 0;
 				} );
 
 				// ジェネレート回数リセット.

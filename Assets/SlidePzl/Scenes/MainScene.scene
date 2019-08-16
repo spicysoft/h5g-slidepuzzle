@@ -256,6 +256,10 @@
                 "StableTypeHash": 5586430324142689399
             }, {
                 "StableTypeHash": 17416292442396997727
+            }, {
+                "StableTypeHash": 1549480577354309748
+            }, {
+                "StableTypeHash": 10091548261109006490
             }]
         }]
     }, {
@@ -396,7 +400,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 4
+            "Index": 5
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 10842159436805393864,
@@ -839,7 +843,7 @@
             "blending": 0
         }, {
             "$type": "Unity.Authoring.Core.SiblingIndex, Unity.Authoring.Core",
-            "Index": 5
+            "Index": 4
         }, {
             "$type": "Unity.Entities.EntityGuid, Unity.Entities",
             "a": 16160676877596445026,
