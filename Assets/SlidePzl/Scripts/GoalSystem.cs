@@ -3,6 +3,7 @@ using Unity.Tiny.Scenes;
 using Unity.Tiny.Debugging;
 using Unity.Tiny.Core;
 using Unity.Tiny.Text;
+using Unity.Mathematics;
 
 namespace SlidePzl
 {
@@ -54,11 +55,25 @@ namespace SlidePzl
 			if( isScored ) {
 				int score = 0;
 				Entities.ForEach( ( Entity entity, ref GameMngr gamemngr ) => {
-					//gameMngrEntity = entity;
+
+					int preCnt = gamemngr.InputCntGoal;
+					gamemngr.InputCntGoal = gamemngr.InputCnt;
+
+					if( gamemngr.InputCntGoal - preCnt == 1 ) {
+						++gamemngr.ComboCnt;
+					}
+					else {
+						gamemngr.ComboCnt = 0;
+					}
+
 					gamemngr.Score += 100;
+					if( gamemngr.ComboCnt > 0 ) {
+						gamemngr.Score += (int)math.pow(2, gamemngr.ComboCnt) * 10;
+					}
+
 					score = gamemngr.Score;
 
-					Debug.LogFormatAlways("input {0}", gamemngr.InputCnt );
+					Debug.LogFormatAlways("input {0} {1} : {2}", preCnt, gamemngr.InputCntGoal, gamemngr.ComboCnt );
 				} );
 
 				// スコア表示.

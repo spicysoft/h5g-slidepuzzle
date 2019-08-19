@@ -21,7 +21,6 @@
         "Unity.Tiny.InputGLFW",
         "Unity.Tiny.InputHTML",
         "Unity.Tiny.IO",
-        "Unity.Tiny.Particles",
         "Unity.Tiny.PointQuery",
         "Unity.Tiny.Renderer",
         "Unity.Tiny.RendererCanvas",
@@ -32,7 +31,6 @@
         "Unity.Tiny.Sprite2D",
         "Unity.Tiny.Text",
         "Unity.Tiny.TextHTML",
-        "Unity.Tiny.Tweens",
         "Unity.Tiny.UIControls",
         "Unity.Tiny.UILayout",
         "Unity.Tiny.Debugging"
