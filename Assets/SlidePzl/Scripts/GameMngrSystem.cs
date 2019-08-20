@@ -10,7 +10,7 @@ namespace SlidePzl
 {
 	public class GameMngrSystem : ComponentSystem
 	{
-		public const float GameTimeLimit = 60f;
+		public const float GameTimeLimit = 90f;		// ゲーム時間.
 
 		protected override void OnUpdate()
 		{
@@ -27,7 +27,6 @@ namespace SlidePzl
 				SceneReference panelBase = new SceneReference();
 				panelBase = World.TinyEnvironment().GetConfigData<PanelConfig>().TitleScn;
 				SceneService.LoadSceneAsync( panelBase );
-				Debug.LogAlways( "title scn load" );
 				return;
 			}
 
@@ -35,10 +34,13 @@ namespace SlidePzl
 			float timer = 0;
 			int score = 0;
 			bool isEnd = false;
+			bool isPause = false;
 
 			Entities.ForEach( ( ref GameMngr mngr ) => {
-				if( mngr.IsPause )
+				if( mngr.IsPause ) {
+					isPause = true;
 					return;
+				}
 
 				score = mngr.Score;
 
@@ -58,15 +60,15 @@ namespace SlidePzl
 				SceneReference panelBase = new SceneReference();
 				panelBase = World.TinyEnvironment().GetConfigData<PanelConfig>().ResultScn;
 				SceneService.LoadSceneAsync( panelBase );
-				Debug.LogAlways("result scn load");
 			}
 
 			// タイマー表示.
-			Entities.WithAll<TextTimerTag>().ForEach( ( Entity entity ) =>
-			{
-				int t = (int)( GameTimeLimit - timer );
-				EntityManager.SetBufferFromString<TextString>( entity, t.ToString() );
-			} );
+			if( !isPause ) {
+				Entities.WithAll<TextTimerTag>().ForEach( ( Entity entity ) => {
+					int t = (int)( GameTimeLimit - timer );
+					EntityManager.SetBufferFromString<TextString>( entity, t.ToString() );
+				} );
+			}
 
 #if false
 			Entities.WithAll<TextComboTag>().ForEach( ( Entity entity ) => {
